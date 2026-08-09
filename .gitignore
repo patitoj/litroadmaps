@@ -1,0 +1,7 @@
+# Archivos de SO
+.DS_Store
+Thumbs.db
+
+# Binarios de Go
+roadmap-api/roadmap-api
+roadmap-api/roadmap-api.exe
