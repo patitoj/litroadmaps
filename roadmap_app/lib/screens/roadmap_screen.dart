@@ -105,6 +105,19 @@ class _RoadmapScreenState extends State<RoadmapScreen> {
                                     const SizedBox(height: 8),
                                     Text(rec.recommendedBook, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
                                     Text('por ${rec.authorName}', style: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic)),
+                                    const SizedBox(height: 12),
+                                    // LA NUEVA FILA DE DATOS
+                                    Row(
+                                      children: [
+                                        const Icon(Icons.calendar_today, size: 16, color: Colors.grey),
+                                        const SizedBox(width: 6),
+                                        Text('${rec.publicationYear}', style: const TextStyle(color: Colors.grey, fontSize: 14)),
+                                        const SizedBox(width: 20),
+                                        const Icon(Icons.auto_stories, size: 16, color: Colors.grey),
+                                        const SizedBox(width: 6),
+                                        Text('${rec.pageCount} págs', style: const TextStyle(color: Colors.grey, fontSize: 14)),
+                                      ],
+                                    ),
                                     const Divider(height: 32),
                                     Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,

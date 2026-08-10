@@ -52,5 +52,29 @@ class ApiService {
       throw Exception('Error del servidor: ${response.statusCode}');
     }
   }
+  
+  Future<List<SearchResult>> getSuggestedBooks() async {
+    final url = Uri.parse('$_baseUrl/suggestions/books');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = json.decode(response.body);
+      return jsonList.map((json) => SearchResult.fromJson(json)).toList();
+    } else {
+      throw Exception('Error al cargar sugerencias');
+    }
+  }
+
+  Future<List<AuthorSearchResult>> getSuggestedAuthors() async {
+    final url = Uri.parse('$_baseUrl/suggestions/authors');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = json.decode(response.body);
+      return jsonList.map((json) => AuthorSearchResult.fromJson(json)).toList();
+    } else {
+      throw Exception('Error al cargar sugerencias');
+    }
+  }
 
 }

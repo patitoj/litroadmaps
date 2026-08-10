@@ -34,6 +34,8 @@ func main() {
 	http.HandleFunc("/api/roadmap", middleware.EnableCORS(bookHandler.GetRoadmap))
 	http.HandleFunc("/api/search", middleware.EnableCORS(bookHandler.SearchBooks))
 	http.HandleFunc("/api/search/authors", middleware.EnableCORS(bookHandler.SearchAuthors))
+	http.HandleFunc("/api/suggestions/books", middleware.EnableCORS(bookHandler.GetSuggestedBooks))
+	http.HandleFunc("/api/suggestions/authors", middleware.EnableCORS(bookHandler.GetSuggestedAuthors))
 
 	// NUEVA RUTA: Roadmap por Autor
 	http.HandleFunc("/api/author-roadmap", middleware.EnableCORS(bookHandler.GetAuthorRoadmap))

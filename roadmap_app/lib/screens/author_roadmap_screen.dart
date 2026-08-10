@@ -71,7 +71,25 @@ class _AuthorRoadmapScreenState extends State<AuthorRoadmapScreen> {
                                   radius: 24,
                                   child: Text('${step.stepNumber}', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                                 ),
-                                title: Text(step.bookTitle, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                                // AQUÍ ESTÁ EL CAMBIO: El título ahora es una columna con los metadatos
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(step.bookTitle, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      children: [
+                                        const Icon(Icons.calendar_today, size: 14, color: Colors.grey),
+                                        const SizedBox(width: 4),
+                                        Text('${step.publicationYear}', style: const TextStyle(color: Colors.grey, fontSize: 13)),
+                                        const SizedBox(width: 16),
+                                        const Icon(Icons.auto_stories, size: 14, color: Colors.grey),
+                                        const SizedBox(width: 4),
+                                        Text('${step.pageCount} págs', style: const TextStyle(color: Colors.grey, fontSize: 13)),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                                 subtitle: Padding(
                                   padding: const EdgeInsets.only(top: 12.0),
                                   child: Text(step.justification, style: const TextStyle(fontSize: 16)),

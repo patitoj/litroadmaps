@@ -33,6 +33,8 @@ class Recommendation {
   final String connectionReason;
   final String connectionType;
   final int order;
+  final int publicationYear; // NUEVO
+  final int pageCount;       // NUEVO
 
   Recommendation({
     required this.recommendedBook,
@@ -40,15 +42,19 @@ class Recommendation {
     required this.connectionReason,
     required this.connectionType,
     required this.order,
+    required this.publicationYear,
+    required this.pageCount,
   });
 
-  factory Recommendation.fromJson(Map json) {
+  factory Recommendation.fromJson(Map<String, dynamic> json) {
     return Recommendation(
       recommendedBook: json['recommended_book']?.toString() ?? 'Libro desconocido',
       authorName: json['author_name']?.toString() ?? 'Autor desconocido',
       connectionReason: json['connection_reason']?.toString() ?? '',
       connectionType: json['connection_type']?.toString() ?? 'relacionado',
       order: int.tryParse(json['recommendation_order']?.toString() ?? '1') ?? 1,
+      publicationYear: int.tryParse(json['publication_year']?.toString() ?? '0') ?? 0,
+      pageCount: int.tryParse(json['page_count']?.toString() ?? '0') ?? 0,
     );
   }
 }
@@ -57,18 +63,24 @@ class AuthorRoadmapStep {
   final int stepNumber;
   final String bookTitle;
   final String justification;
+  final int publicationYear; // NUEVO
+  final int pageCount;       // NUEVO
 
   AuthorRoadmapStep({
     required this.stepNumber,
     required this.bookTitle,
     required this.justification,
+    required this.publicationYear,
+    required this.pageCount,
   });
 
-  factory AuthorRoadmapStep.fromJson(Map json) {
+  factory AuthorRoadmapStep.fromJson(Map<String, dynamic> json) {
     return AuthorRoadmapStep(
       stepNumber: int.tryParse(json['step_number']?.toString() ?? '1') ?? 1,
       bookTitle: json['book_title']?.toString() ?? '',
       justification: json['justification']?.toString() ?? '',
+      publicationYear: int.tryParse(json['publication_year']?.toString() ?? '0') ?? 0,
+      pageCount: int.tryParse(json['page_count']?.toString() ?? '0') ?? 0,
     );
   }
 }
