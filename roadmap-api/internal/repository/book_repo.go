@@ -33,6 +33,12 @@ func (r *BookRepository) GetRoadmap(bookID string) ([]models.Recommendation, err
 		}
 		roadmap = append(roadmap, rec)
 	}
+	// Si la consulta no trajo resultados, inicializamos una lista vacía
+	// para que no devuelva "null" y rompa el frontend.
+	if roadmap == nil {
+		roadmap = []models.Recommendation{}
+	}
+
 	return roadmap, nil
 }
 
