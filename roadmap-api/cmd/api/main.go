@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	// 1. Conexión a la Base de Datos
+	// IMPORTANTE: Poné tu contraseña real de PostgreSQL
 	connStr := "user=postgres password=patito dbname=roadmap_db sslmode=disable"
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
@@ -27,15 +27,17 @@ func main() {
 	}
 	fmt.Println("Conectado a PostgreSQL...")
 
-	// 2. Inyección de Dependencias
 	bookRepo := &repository.BookRepository{DB: db}
 	bookHandler := &handler.BookHandler{Repo: bookRepo}
 
-	// 3. Configuración de Rutas con Middleware
+	// Rutas
 	http.HandleFunc("/api/roadmap", middleware.EnableCORS(bookHandler.GetRoadmap))
 	http.HandleFunc("/api/search", middleware.EnableCORS(bookHandler.SearchBooks))
+	http.HandleFunc("/api/search/authors", middleware.EnableCORS(bookHandler.SearchAuthors))
 
-	// 4. Iniciar Servidor
+	// NUEVA RUTA: Roadmap por Autor
+	http.HandleFunc("/api/author-roadmap", middleware.EnableCORS(bookHandler.GetAuthorRoadmap))
+
 	fmt.Println("Servidor corriendo en http://localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

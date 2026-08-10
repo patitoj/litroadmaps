@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/search_screen.dart'; // Importamos la pantalla
+import 'screens/home_screen.dart';
 
 void main() {
   runApp(const RoadmapApp());
@@ -17,7 +17,7 @@ class RoadmapApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SearchScreen(), // Iniciamos con el buscador
+      home: const HomeScreen(), // Arrancamos con el menú principal
     );
   }
 }

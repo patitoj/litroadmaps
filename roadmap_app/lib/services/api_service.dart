@@ -28,4 +28,29 @@ class ApiService {
       throw Exception('Error del servidor: ${response.statusCode}');
     }
   }
+
+  Future<List<AuthorRoadmapStep>> getAuthorRoadmap(int authorId) async {
+    final url = Uri.parse('$_baseUrl/author-roadmap?author_id=$authorId');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = json.decode(response.body);
+      return jsonList.map((json) => AuthorRoadmapStep.fromJson(json)).toList();
+    } else {
+      throw Exception('Error del servidor: ${response.statusCode}');
+    }
+  }
+
+  Future<List<AuthorSearchResult>> searchAuthors(String query) async {
+    final url = Uri.parse('$_baseUrl/search/authors?q=$query');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = json.decode(response.body);
+      return jsonList.map((json) => AuthorSearchResult.fromJson(json)).toList();
+    } else {
+      throw Exception('Error del servidor: ${response.statusCode}');
+    }
+  }
+
 }

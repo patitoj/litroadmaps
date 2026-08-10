@@ -6,7 +6,6 @@ import (
 	"roadmap-api/internal/repository"
 )
 
-// BookHandler agrupa las funciones HTTP y tiene acceso al repositorio
 type BookHandler struct {
 	Repo *repository.BookRepository
 }
@@ -36,6 +35,41 @@ func (h *BookHandler) SearchBooks(w http.ResponseWriter, r *http.Request) {
 	}
 
 	results, err := h.Repo.SearchBooks(searchTerm)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(results)
+}
+
+// NUEVO: Handler para el Roadmap de Autor
+func (h *BookHandler) GetAuthorRoadmap(w http.ResponseWriter, r *http.Request) {
+	authorID := r.URL.Query().Get("author_id")
+	if authorID == "" {
+		http.Error(w, "Falta el author_id", http.StatusBadRequest)
+		return
+	}
+
+	steps, err := h.Repo.GetAuthorRoadmap(authorID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(steps)
+}
+
+func (h *BookHandler) SearchAuthors(w http.ResponseWriter, r *http.Request) {
+	searchTerm := r.URL.Query().Get("q")
+	if searchTerm == "" {
+		http.Error(w, "Falta el término de búsqueda", http.StatusBadRequest)
+		return
+	}
+
+	results, err := h.Repo.SearchAuthors(searchTerm)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

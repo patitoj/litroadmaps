@@ -5,19 +5,19 @@ import (
 	"roadmap-api/internal/models"
 )
 
-// BookRepository encapsula la conexión a la base de datos
 type BookRepository struct {
 	DB *sql.DB
 }
 
-// GetRoadmap ejecuta el SQL del roadmap
+// 1. Roadmap por Libro (Actualizado)
 func (r *BookRepository) GetRoadmap(bookID string) ([]models.Recommendation, error) {
 	query := `
-		SELECT b.title, a.name, bc.reason
+		SELECT b.title, a.name, bc.reason, bc.connection_type, bc.recommendation_order
 		FROM book_connections bc
 		JOIN books b ON bc.target_book_id = b.id
 		JOIN authors a ON b.author_id = a.id
-		WHERE bc.source_book_id = $1;
+		WHERE bc.source_book_id = $1
+		ORDER BY bc.recommendation_order ASC;
 	`
 	rows, err := r.DB.Query(query, bookID)
 	if err != nil {
@@ -28,27 +28,24 @@ func (r *BookRepository) GetRoadmap(bookID string) ([]models.Recommendation, err
 	var roadmap []models.Recommendation
 	for rows.Next() {
 		var rec models.Recommendation
-		if err := rows.Scan(&rec.RecommendedBook, &rec.AuthorName, &rec.ConnectionReason); err != nil {
+		if err := rows.Scan(&rec.RecommendedBook, &rec.AuthorName, &rec.ConnectionReason, &rec.ConnectionType, &rec.Order); err != nil {
 			return nil, err
 		}
 		roadmap = append(roadmap, rec)
 	}
-	// Si la consulta no trajo resultados, inicializamos una lista vacía
-	// para que no devuelva "null" y rompa el frontend.
+
 	if roadmap == nil {
 		roadmap = []models.Recommendation{}
 	}
-
 	return roadmap, nil
 }
 
-// SearchBooks ejecuta el SQL de búsqueda
 func (r *BookRepository) SearchBooks(searchTerm string) ([]models.SearchResult, error) {
 	query := `
-		SELECT b.id, b.title, a.name
+		SELECT b.id, b.title, a.id, a.name
 		FROM books b
 		JOIN authors a ON b.author_id = a.id
-		WHERE b.title ILIKE $1 OR a.name ILIKE $1
+		WHERE unaccent(b.title) ILIKE unaccent($1) OR unaccent(a.name) ILIKE unaccent($1)
 		LIMIT 10;
 	`
 	rows, err := r.DB.Query(query, "%"+searchTerm+"%")
@@ -60,7 +57,7 @@ func (r *BookRepository) SearchBooks(searchTerm string) ([]models.SearchResult, 
 	var results []models.SearchResult
 	for rows.Next() {
 		var res models.SearchResult
-		if err := rows.Scan(&res.ID, &res.Title, &res.AuthorName); err != nil {
+		if err := rows.Scan(&res.ID, &res.Title, &res.AuthorID, &res.AuthorName); err != nil {
 			return nil, err
 		}
 		results = append(results, res)
@@ -68,6 +65,64 @@ func (r *BookRepository) SearchBooks(searchTerm string) ([]models.SearchResult, 
 
 	if results == nil {
 		results = []models.SearchResult{}
+	}
+	return results, nil
+}
+
+// 3. NUEVO: Roadmap por Autor
+func (r *BookRepository) GetAuthorRoadmap(authorID string) ([]models.AuthorRoadmapStep, error) {
+	query := `
+		SELECT aro.step_number, b.title, aro.justification
+		FROM author_reading_orders aro
+		JOIN books b ON aro.book_id = b.id
+		WHERE aro.author_id = $1
+		ORDER BY aro.step_number ASC;
+	`
+	rows, err := r.DB.Query(query, authorID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var steps []models.AuthorRoadmapStep
+	for rows.Next() {
+		var step models.AuthorRoadmapStep
+		if err := rows.Scan(&step.StepNumber, &step.BookTitle, &step.Justification); err != nil {
+			return nil, err
+		}
+		steps = append(steps, step)
+	}
+
+	if steps == nil {
+		steps = []models.AuthorRoadmapStep{}
+	}
+	return steps, nil
+}
+
+func (r *BookRepository) SearchAuthors(searchTerm string) ([]models.AuthorSearchResult, error) {
+	query := `
+		SELECT id, name
+		FROM authors
+		WHERE unaccent(name) ILIKE unaccent($1)
+		LIMIT 10;
+	`
+	rows, err := r.DB.Query(query, "%"+searchTerm+"%")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var results []models.AuthorSearchResult
+	for rows.Next() {
+		var res models.AuthorSearchResult
+		if err := rows.Scan(&res.ID, &res.Name); err != nil {
+			return nil, err
+		}
+		results = append(results, res)
+	}
+
+	if results == nil {
+		results = []models.AuthorSearchResult{}
 	}
 	return results, nil
 }

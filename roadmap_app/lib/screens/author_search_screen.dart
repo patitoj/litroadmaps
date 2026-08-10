@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import '../models/book_models.dart';
 import '../services/api_service.dart';
-import 'roadmap_screen.dart';
+import 'author_roadmap_screen.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+class AuthorSearchScreen extends StatefulWidget {
+  const AuthorSearchScreen({super.key});
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<AuthorSearchScreen> createState() => _AuthorSearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _AuthorSearchScreenState extends State<AuthorSearchScreen> {
   final TextEditingController _searchController = TextEditingController();
-  final ApiService _apiService = ApiService(); // Instanciamos el servicio
+  final ApiService _apiService = ApiService();
   
-  List<SearchResult> _results = [];
+  List<AuthorSearchResult> _results = [];
   bool _isLoading = false;
   String _errorMessage = '';
 
@@ -29,8 +29,7 @@ class _SearchScreenState extends State<SearchScreen> {
     });
 
     try {
-      // Usamos el servicio en lugar de hacer el http.get acá
-      final results = await _apiService.searchBooks(query);
+      final results = await _apiService.searchAuthors(query);
       setState(() => _results = results);
     } catch (e) {
       setState(() => _errorMessage = 'No se pudo conectar a la API.');
@@ -42,28 +41,19 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text('Búsqueda por Autor')),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600),
           child: Padding(
             padding: const EdgeInsets.all(32.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 40),
-                const Icon(Icons.menu_book_rounded, size: 80, color: Colors.deepPurple),
-                const SizedBox(height: 24),
-                const Text(
-                  'Descubrí tu próxima lectura',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 32),
                 TextField(
                   controller: _searchController,
                   decoration: InputDecoration(
-                    hintText: 'Ej: Dorian Gray, Gabriel García Márquez...',
+                    hintText: 'Ej: Tolkien, Gabriel García Márquez...',
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.search),
@@ -82,20 +72,19 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: ListView.builder(
                       itemCount: _results.length,
                       itemBuilder: (context, index) {
-                        final book = _results[index];
+                        final author = _results[index];
                         return Card(
                           elevation: 2,
                           margin: const EdgeInsets.symmetric(vertical: 8),
                           child: ListTile(
-                            leading: const Icon(Icons.book, color: Colors.deepPurple),
-                            title: Text(book.title, style: const TextStyle(fontWeight: FontWeight.bold)),
-                            subtitle: Text(book.authorName),
+                            leading: const Icon(Icons.person, color: Colors.teal),
+                            title: Text(author.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => RoadmapScreen(bookId: book.id, bookTitle: book.title),
+                                  builder: (context) => AuthorRoadmapScreen(authorId: author.id, authorName: author.name),
                                 ),
                               );
                             },
