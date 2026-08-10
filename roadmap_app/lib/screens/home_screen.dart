@@ -7,6 +7,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final screenWidth = MediaQuery.of(context).size.width;
+    final responsivePadding = screenWidth < 600 ? 16.0 : 32.0;
+    
     return Scaffold(
       body: Center(
         child: ConstrainedBox(

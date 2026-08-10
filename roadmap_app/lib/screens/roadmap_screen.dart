@@ -45,6 +45,10 @@ class _RoadmapScreenState extends State<RoadmapScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final screenWidth = MediaQuery.of(context).size.width;
+    final responsivePadding = screenWidth < 600 ? 16.0 : 32.0;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Roadmap: ${widget.bookTitle}'),
@@ -57,7 +61,7 @@ class _RoadmapScreenState extends State<RoadmapScreen> {
               ? const Center(child: CircularProgressIndicator())
               : _errorMessage.isNotEmpty
                   ? Padding(
-                      padding: const EdgeInsets.all(32.0),
+                      padding: EdgeInsets.all(responsivePadding),
                       child: Center(
                         child: Text(
                           _errorMessage, 

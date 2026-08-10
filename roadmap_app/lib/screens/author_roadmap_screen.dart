@@ -41,6 +41,10 @@ class _AuthorRoadmapScreenState extends State<AuthorRoadmapScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final screenWidth = MediaQuery.of(context).size.width;
+    final responsivePadding = screenWidth < 600 ? 16.0 : 32.0;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Guía de Lectura: ${widget.authorName}'),
@@ -56,7 +60,7 @@ class _AuthorRoadmapScreenState extends State<AuthorRoadmapScreen> {
                   : _steps.isEmpty
                       ? const Center(child: Text('Aún no hay una guía para este autor.'))
                       : ListView.builder(
-                          padding: const EdgeInsets.all(32),
+                          padding: EdgeInsets.all(responsivePadding),
                           itemCount: _steps.length,
                           itemBuilder: (context, index) {
                             final step = _steps[index];

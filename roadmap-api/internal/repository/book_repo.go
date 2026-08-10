@@ -150,6 +150,11 @@ func (r *BookRepository) GetSuggestedBooks() ([]models.SearchResult, error) {
                COALESCE(b.page_count, 0)
         FROM books b
         JOIN authors a ON b.author_id = a.id
+        WHERE (
+            SELECT COUNT(*) 
+            FROM book_connections bc 
+            WHERE bc.source_book_id = b.id
+        ) >= 3
         ORDER BY RANDOM()
         LIMIT 4;
     `
@@ -167,14 +172,22 @@ func (r *BookRepository) GetSuggestedBooks() ([]models.SearchResult, error) {
 		}
 		results = append(results, res)
 	}
+
+	if results == nil {
+		results = []models.SearchResult{}
+	}
 	return results, nil
 }
 
-// Trae 4 autores aleatorios para sugerencias
 func (r *BookRepository) GetSuggestedAuthors() ([]models.AuthorSearchResult, error) {
 	query := `
-        SELECT id, name
-        FROM authors
+        SELECT a.id, a.name
+        FROM authors a
+        WHERE (
+            SELECT COUNT(*) 
+            FROM author_reading_orders aro 
+            WHERE aro.author_id = a.id
+        ) >= 3
         ORDER BY RANDOM()
         LIMIT 4;
     `
@@ -191,6 +204,10 @@ func (r *BookRepository) GetSuggestedAuthors() ([]models.AuthorSearchResult, err
 			return nil, err
 		}
 		results = append(results, res)
+	}
+
+	if results == nil {
+		results = []models.AuthorSearchResult{}
 	}
 	return results, nil
 }

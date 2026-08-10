@@ -110,6 +110,8 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
   @override
   Widget build(BuildContext context) {
     final bool isSearchEmpty = _searchController.text.trim().isEmpty;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final responsivePadding = screenWidth < 600 ? 16.0 : 32.0;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Búsqueda por Libro')),
@@ -117,7 +119,7 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600),
           child: Padding(
-            padding: const EdgeInsets.all(32.0),
+            padding: EdgeInsets.all(responsivePadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
