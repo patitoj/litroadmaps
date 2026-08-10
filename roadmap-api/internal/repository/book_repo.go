@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"fmt"
 	"roadmap-api/internal/models"
 )
 
@@ -9,10 +10,12 @@ type BookRepository struct {
 	DB *sql.DB
 }
 
-// 1. Roadmap por Libro (Actualizado)
 func (r *BookRepository) GetRoadmap(bookID string) ([]models.Recommendation, error) {
 	query := `
-		SELECT b.title, a.name, bc.reason, bc.connection_type, bc.recommendation_order
+		SELECT b.title, a.name, 
+		       COALESCE(bc.reason, 'Sin justificación'), 
+		       COALESCE(bc.connection_type, 'relacionado'), 
+		       COALESCE(bc.recommendation_order, 1)
 		FROM book_connections bc
 		JOIN books b ON bc.target_book_id = b.id
 		JOIN authors a ON b.author_id = a.id
@@ -21,6 +24,7 @@ func (r *BookRepository) GetRoadmap(bookID string) ([]models.Recommendation, err
 	`
 	rows, err := r.DB.Query(query, bookID)
 	if err != nil {
+		fmt.Println("❌ Error de SQL en GetRoadmap:", err)
 		return nil, err
 	}
 	defer rows.Close()
@@ -29,6 +33,7 @@ func (r *BookRepository) GetRoadmap(bookID string) ([]models.Recommendation, err
 	for rows.Next() {
 		var rec models.Recommendation
 		if err := rows.Scan(&rec.RecommendedBook, &rec.AuthorName, &rec.ConnectionReason, &rec.ConnectionType, &rec.Order); err != nil {
+			fmt.Println("❌ Error al escanear la recomendación:", err)
 			return nil, err
 		}
 		roadmap = append(roadmap, rec)
@@ -42,7 +47,9 @@ func (r *BookRepository) GetRoadmap(bookID string) ([]models.Recommendation, err
 
 func (r *BookRepository) SearchBooks(searchTerm string) ([]models.SearchResult, error) {
 	query := `
-		SELECT b.id, b.title, a.id, a.name
+		SELECT b.id, b.title, a.id, a.name, 
+		       COALESCE(b.publication_year, 0), -- Si es NULL, devuelve 0
+		       COALESCE(b.page_count, 0)        -- Si es NULL, devuelve 0
 		FROM books b
 		JOIN authors a ON b.author_id = a.id
 		WHERE unaccent(b.title) ILIKE unaccent($1) OR unaccent(a.name) ILIKE unaccent($1)
@@ -50,6 +57,7 @@ func (r *BookRepository) SearchBooks(searchTerm string) ([]models.SearchResult, 
 	`
 	rows, err := r.DB.Query(query, "%"+searchTerm+"%")
 	if err != nil {
+		fmt.Println("❌ Error en SearchBooks:", err)
 		return nil, err
 	}
 	defer rows.Close()
@@ -57,7 +65,8 @@ func (r *BookRepository) SearchBooks(searchTerm string) ([]models.SearchResult, 
 	var results []models.SearchResult
 	for rows.Next() {
 		var res models.SearchResult
-		if err := rows.Scan(&res.ID, &res.Title, &res.AuthorID, &res.AuthorName); err != nil {
+		if err := rows.Scan(&res.ID, &res.Title, &res.AuthorID, &res.AuthorName, &res.PublicationYear, &res.PageCount); err != nil {
+			fmt.Println("❌ Error al leer datos del libro:", err)
 			return nil, err
 		}
 		results = append(results, res)

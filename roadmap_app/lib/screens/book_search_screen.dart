@@ -18,7 +18,7 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
   bool _isLoading = false;
   String _errorMessage = '';
 
-  Future<void> _performSearch() async {
+  Future _performSearch() async {
     final query = _searchController.text.trim();
     if (query.isEmpty) return;
 
@@ -32,7 +32,8 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
       final results = await _apiService.searchBooks(query);
       setState(() => _results = results);
     } catch (e) {
-      setState(() => _errorMessage = 'No se pudo conectar a la API.');
+      // AHORA EL ERROR VA DIRECTO A LA PANTALLA
+      setState(() => _errorMessage = 'Error técnico detectado:\n$e');
     } finally {
       setState(() => _isLoading = false);
     }
@@ -77,9 +78,33 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
                           elevation: 2,
                           margin: const EdgeInsets.symmetric(vertical: 8),
                           child: ListTile(
-                            leading: const Icon(Icons.book, color: Colors.deepPurple),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                            leading: const Icon(Icons.book, color: Colors.deepPurple, size: 32),
                             title: Text(book.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                            subtitle: Text('Autor: ${book.authorName}', style: const TextStyle(color: Colors.grey, fontSize: 14)),
+                            subtitle: Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Autor: ${book.authorName}', 
+                                    style: const TextStyle(color: Colors.grey, fontSize: 15, fontWeight: FontWeight.w500)
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.calendar_today, size: 14, color: Colors.grey),
+                                      const SizedBox(width: 6),
+                                      Text('${book.publicationYear}', style: const TextStyle(color: Colors.grey, fontSize: 13)),
+                                      const SizedBox(width: 16),
+                                      const Icon(Icons.auto_stories, size: 14, color: Colors.grey),
+                                      const SizedBox(width: 6),
+                                      Text('${book.pageCount} págs', style: const TextStyle(color: Colors.grey, fontSize: 13)),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
                             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                             onTap: () {
                               Navigator.push(

@@ -9,12 +9,13 @@ type Recommendation struct {
 	Order            int    `json:"recommendation_order"`
 }
 
-// 2. Resultados del Buscador
 type SearchResult struct {
-	ID         int    `json:"id"`
-	Title      string `json:"title"`
-	AuthorID   int    `json:"author_id"` // Nuevo: necesario para el roadmap de autor
-	AuthorName string `json:"author_name"`
+	ID              int    `json:"id"`
+	Title           string `json:"title"`
+	AuthorID        int    `json:"author_id"`
+	AuthorName      string `json:"author_name"`
+	PublicationYear int    `json:"publication_year"` // NUEVO
+	PageCount       int    `json:"page_count"`       // NUEVO
 }
 
 // 3. NUEVO: Roadmap por Autor

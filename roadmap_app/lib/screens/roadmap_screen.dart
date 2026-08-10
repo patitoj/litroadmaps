@@ -32,8 +32,12 @@ class _RoadmapScreenState extends State<RoadmapScreen> {
         _isLoading = false;
       });
     } catch (e) {
+      // ESTA ES LA CLAVE DEL DIAGNÓSTICO
+      print('--- ERROR CRÍTICO EN FLUTTER ---');
+      print(e.toString());
+      
       setState(() {
-        _errorMessage = 'No se pudo conectar a la API.';
+        _errorMessage = 'Error técnico detectado:\n\n$e';
         _isLoading = false;
       });
     }
@@ -52,7 +56,16 @@ class _RoadmapScreenState extends State<RoadmapScreen> {
           child: _isLoading
               ? const Center(child: CircularProgressIndicator())
               : _errorMessage.isNotEmpty
-                  ? Center(child: Text(_errorMessage, style: const TextStyle(color: Colors.red)))
+                  ? Padding(
+                      padding: const EdgeInsets.all(32.0),
+                      child: Center(
+                        child: Text(
+                          _errorMessage, 
+                          style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 16),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    )
                   : _roadmap.isEmpty
                       ? const Center(child: Text('Aún no hay lecturas conectadas para este libro.'))
                       : ListView.separated(
@@ -72,7 +85,23 @@ class _RoadmapScreenState extends State<RoadmapScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Siguiente parada:', style: TextStyle(color: Colors.deepPurple.shade300, fontWeight: FontWeight.bold)),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Parada #${rec.order}', 
+                                          style: TextStyle(color: Colors.deepPurple.shade300, fontWeight: FontWeight.bold)
+                                        ),
+                                        Chip(
+                                          label: Text(
+                                            rec.connectionType.replaceAll('_', ' ').toUpperCase(),
+                                            style: const TextStyle(fontSize: 10, color: Colors.white),
+                                          ),
+                                          backgroundColor: Colors.deepPurple,
+                                          padding: EdgeInsets.zero,
+                                        )
+                                      ],
+                                    ),
                                     const SizedBox(height: 8),
                                     Text(rec.recommendedBook, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
                                     Text('por ${rec.authorName}', style: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic)),
