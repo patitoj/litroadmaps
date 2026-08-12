@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../models/book_models.dart';
 import '../services/api_service.dart';
 import 'author_roadmap_screen.dart';
+import 'package:flutter/services.dart';
+
 
 class AuthorSearchScreen extends StatefulWidget {
   const AuthorSearchScreen({super.key});
@@ -51,10 +53,11 @@ class _AuthorSearchScreenState extends State<AuthorSearchScreen> {
     });
 
     try {
-      final results = await _apiService.searchAuthors(query);
+      final results = await _apiService.searchAuthors(query); // O searchBooks para la otra pantalla
       setState(() => _results = results);
     } catch (e) {
-      setState(() => _errorMessage = 'Error técnico detectado:\n$e');
+      // Reemplazamos el error técnico por un mensaje amigable para el usuario
+      setState(() => _errorMessage = 'Estamos teniendo problemas para conectarnos. Por favor, vuelve a intentarlo más tarde.');
     } finally {
       setState(() => _isLoading = false);
     }
@@ -100,18 +103,30 @@ class _AuthorSearchScreenState extends State<AuthorSearchScreen> {
               children: [
                 TextField(
                   controller: _searchController,
+                  
+                  // NUEVO: Limitar longitud
+                  maxLength: 50,
+                  
+                  // NUEVO: Bloquear caracteres extraños (solo letras, números y espacios)
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]')),
+                  ],
+                  
                   onChanged: (_) {
+                    // Si el usuario borra el texto, volvemos a mostrar sugerencias
                     if (_searchController.text.isEmpty) {
                       setState(() => _results = []);
                     }
                   },
                   decoration: InputDecoration(
-                    hintText: 'Ej: Tolkien, Gabriel García Márquez...',
+                    hintText: 'Ej: Albert Camus, Gabriel García Márquez...',
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.search),
                       onPressed: _performSearch,
                     ),
+                    // NUEVO: Ocultar el contador de caracteres si no querés que se vea abajo a la derecha
+                    counterText: '', 
                   ),
                   onSubmitted: (_) => _performSearch(),
                 ),

@@ -5,3 +5,5 @@ Thumbs.db
 # Binarios de Go
 roadmap-api/roadmap-api
 roadmap-api/roadmap-api.exe
+
+**/.env

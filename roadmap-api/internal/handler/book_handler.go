@@ -3,11 +3,21 @@ package handler
 import (
 	"encoding/json"
 	"net/http"
+	"regexp" // NUEVO: Importación para el filtro Regex
 	"roadmap-api/internal/repository"
 )
 
 type BookHandler struct {
 	Repo *repository.BookRepository
+}
+
+// NUEVO: Función para validar la entrada (máx 50 caracteres y sin símbolos raros)
+func validarEntrada(input string) bool {
+	if len(input) > 50 {
+		return false
+	}
+	re := regexp.MustCompile(`^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]+$`)
+	return re.MatchString(input)
 }
 
 func (h *BookHandler) GetRoadmap(w http.ResponseWriter, r *http.Request) {
@@ -31,6 +41,12 @@ func (h *BookHandler) SearchBooks(w http.ResponseWriter, r *http.Request) {
 	searchTerm := r.URL.Query().Get("q")
 	if searchTerm == "" {
 		http.Error(w, "Falta el término de búsqueda", http.StatusBadRequest)
+		return
+	}
+
+	// NUEVO: Filtro de seguridad
+	if !validarEntrada(searchTerm) {
+		http.Error(w, "El término de búsqueda contiene caracteres inválidos o es muy largo", http.StatusBadRequest)
 		return
 	}
 
@@ -66,6 +82,12 @@ func (h *BookHandler) SearchAuthors(w http.ResponseWriter, r *http.Request) {
 	searchTerm := r.URL.Query().Get("q")
 	if searchTerm == "" {
 		http.Error(w, "Falta el término de búsqueda", http.StatusBadRequest)
+		return
+	}
+
+	// NUEVO: Filtro de seguridad
+	if !validarEntrada(searchTerm) {
+		http.Error(w, "El término de búsqueda contiene caracteres inválidos o es muy largo", http.StatusBadRequest)
 		return
 	}
 

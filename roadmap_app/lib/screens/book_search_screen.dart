@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/book_models.dart';
 import '../services/api_service.dart';
 import 'roadmap_screen.dart';
+import 'package:flutter/services.dart';
 
 class BookSearchScreen extends StatefulWidget {
   const BookSearchScreen({super.key});
@@ -55,7 +56,7 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
       final results = await _apiService.searchBooks(query);
       setState(() => _results = results);
     } catch (e) {
-      setState(() => _errorMessage = 'Error técnico detectado:\n$e');
+      setState(() => _errorMessage = 'Estamos teniendo problemas para conectarnos. Por favor, vuelve a intentarlo más tarde.');
     } finally {
       setState(() => _isLoading = false);
     }
@@ -125,6 +126,15 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
               children: [
                 TextField(
                   controller: _searchController,
+                  
+                  // NUEVO: Limitar longitud
+                  maxLength: 50,
+                  
+                  // NUEVO: Bloquear caracteres extraños (solo letras, números y espacios)
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]')),
+                  ],
+                  
                   onChanged: (_) {
                     // Si el usuario borra el texto, volvemos a mostrar sugerencias
                     if (_searchController.text.isEmpty) {
@@ -138,6 +148,8 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
                       icon: const Icon(Icons.search),
                       onPressed: _performSearch,
                     ),
+                    // NUEVO: Ocultar el contador de caracteres si no querés que se vea abajo a la derecha
+                    counterText: '', 
                   ),
                   onSubmitted: (_) => _performSearch(),
                 ),
