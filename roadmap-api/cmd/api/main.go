@@ -110,6 +110,15 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("API Activa y Despierta"))
 	})
+	mux.HandleFunc("/api/db-keepalive", func(w http.ResponseWriter, r *http.Request) {
+		err := db.Ping()
+		if err != nil {
+			http.Error(w, "Error conectando a Supabase", http.StatusInternalServerError)
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("Supabase ha sido tocado con éxito"))
+	})
 
 	// 7. Configuración del Servidor HTTP con Timeouts
 	srv := &http.Server{
