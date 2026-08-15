@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import '../models/book_models.dart';
 
 class ApiService {
-  static const String _baseUrl = 'http://localhost:8080/api';
+  static const String _baseUrl = 'https://litroadmaps.onrender.com/api';
 
   Future<List<SearchResult>> searchBooks(String query) async {
     final url = Uri.parse('$_baseUrl/search?q=$query');
