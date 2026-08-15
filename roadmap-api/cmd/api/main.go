@@ -20,10 +20,11 @@ import (
 	_ "github.com/lib/pq"
 )
 
-// Función para habilitar CORS
+// Función para habilitar CORS (Solo la declarás si no la usás en middleware,
+// pero en tus rutas veo que ya estás usando middleware.EnableCORS.
+// Te la dejo por si la necesitás para otra cosa).
 func enableCORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// En producción podés cambiar el "*" por la URL exacta de tu frontend en Vercel
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
@@ -49,14 +50,23 @@ func main() {
 	dbUser := os.Getenv("DB_USER")
 	dbPassword := os.Getenv("DB_PASSWORD")
 	dbName := os.Getenv("DB_NAME")
-	apiPort := os.Getenv("API_PORT")
 	dbMaxOpen := os.Getenv("DB_MAX_OPEN_CONNS")
 
+	// ---> PARCHE PARA RENDER <---
+	// Render SIEMPRE inyecta la variable "PORT"
+	apiPort := os.Getenv("PORT")
 	if apiPort == "" {
-		apiPort = "8080"
+		// Si no hay "PORT", probamos con tu variable local "API_PORT"
+		apiPort = os.Getenv("API_PORT")
+		if apiPort == "" {
+			// Si tampoco existe, usamos el 8080 por defecto
+			apiPort = "8080"
+		}
 	}
 
 	// 3. Conectar a PostgreSQL
+	// Supabase usa pgbouncer en el puerto 6543, no uses sslmode=disable si querés seguridad real,
+	// pero para arrancar y probar, disable está perfecto.
 	connStr := fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		dbHost, dbPort, dbUser, dbPassword, dbName,
@@ -88,7 +98,7 @@ func main() {
 	bookRepo := &repository.BookRepository{DB: db}
 	bookHandler := &handler.BookHandler{Repo: bookRepo}
 
-	// 6. Enrutador explícito (Mejor práctica en lugar del global)
+	// 6. Enrutador explícito
 	mux := http.NewServeMux()
 	mux.HandleFunc("/api/roadmap", middleware.EnableCORS(bookHandler.GetRoadmap))
 	mux.HandleFunc("/api/search", middleware.EnableCORS(bookHandler.SearchBooks))
@@ -97,33 +107,30 @@ func main() {
 	mux.HandleFunc("/api/suggestions/authors", middleware.EnableCORS(bookHandler.GetSuggestedAuthors))
 	mux.HandleFunc("/api/author-roadmap", middleware.EnableCORS(bookHandler.GetAuthorRoadmap))
 
-	// 7. Configuración del Servidor HTTP con Timeouts (Seguridad contra ataques)
+	// 7. Configuración del Servidor HTTP con Timeouts
 	srv := &http.Server{
 		Addr:         ":" + apiPort,
 		Handler:      mux,
-		ReadTimeout:  10 * time.Second,  // Tiempo máx para leer la petición del usuario
-		WriteTimeout: 10 * time.Second,  // Tiempo máx para enviarle la respuesta
-		IdleTimeout:  120 * time.Second, // Tiempo máx de espera entre conexiones activas
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  120 * time.Second,
 	}
 
-	// 8. Iniciar el servidor en una Goroutine (Segundo plano)
+	// 8. Iniciar el servidor en una Goroutine
 	go func() {
-		fmt.Printf("Servidor corriendo en http://localhost:%s\n", apiPort)
+		fmt.Printf("Servidor corriendo en el puerto %s\n", apiPort)
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("Error fatal en el servidor: %v\n", err)
 		}
 	}()
 
-	// 9. Graceful Shutdown (Apagado Elegante)
-	// Creamos un canal para escuchar las señales de apagado
+	// 9. Graceful Shutdown
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
 
-	// El código se pausa acá hasta que reciba una señal de apagado (ej: presionar Ctrl+C en la terminal)
 	<-quit
 	fmt.Println("\nSeñal de apagado detectada. Iniciando Graceful Shutdown...")
 
-	// Le damos 10 segundos máximo al servidor para terminar de responder peticiones en curso
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
