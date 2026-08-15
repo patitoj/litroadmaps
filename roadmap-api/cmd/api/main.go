@@ -106,6 +106,10 @@ func main() {
 	mux.HandleFunc("/api/suggestions/books", middleware.EnableCORS(bookHandler.GetSuggestedBooks))
 	mux.HandleFunc("/api/suggestions/authors", middleware.EnableCORS(bookHandler.GetSuggestedAuthors))
 	mux.HandleFunc("/api/author-roadmap", middleware.EnableCORS(bookHandler.GetAuthorRoadmap))
+	mux.HandleFunc("/api/health", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("API Activa y Despierta"))
+	})
 
 	// 7. Configuración del Servidor HTTP con Timeouts
 	srv := &http.Server{
