@@ -1,0 +1,206 @@
+[
+  {
+    "name": "Nassim Nicholas Taleb",
+    "biography": "Ensayista, matemático y ex operador de bolsa libanés-estadounidense. Su filosofía se centra en la toma de decisiones bajo la opacidad, el riesgo, la probabilidad y los eventos altamente improbables que cambian el rumbo del mundo.",
+    "roadmap": [
+      {
+        "step_number": 1,
+        "justification": "El tratado definitivo sobre la imprevisibilidad. Taleb demuestra que la historia humana no avanza de forma predecible, sino a través de 'Cisnes Negros': eventos estadísticamente imposibles de predecir (como internet o una crisis mundial) que tienen un impacto extremo y que luego intentamos justificar falsamente en retrospectiva.",
+        "book": {
+          "title": "El cisne negro",
+          "publication_year": 2007,
+          "page_count": 400,
+          "connections": [
+            {
+              "target_book_title": "Pensar rápido, pensar despacio",
+              "target_author_name": "Daniel Kahneman",
+              "reason": "Ambos autores son el dúo dinámico de la toma de decisiones moderna. Kahneman explica desde la psicología por qué nuestro cerebro está cableado para no entender la estadística; Taleb explica desde las matemáticas las catástrofes globales que ocurren por culpa de esa ceguera mental.",
+              "connection_type": "Teoría de Decisiones y Sesgos Cognitivos",
+              "recommendation_order": 1
+            },
+            {
+              "target_book_title": "Fundación",
+              "target_author_name": "Isaac Asimov",
+              "reason": "En la novela, Hari Seldon usa fórmulas matemáticas gigantescas para predecir milenios de historia humana con exactitud. Taleb escribió su libro justamente para demostrar que en el mundo real la ecuación de Asimov es una imposibilidad absoluta debido a la fragilidad de nuestras predicciones.",
+              "connection_type": "Contraste: Predicción Matemática vs Caos",
+              "recommendation_order": 2
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Eduardo Galeano",
+    "biography": "Periodista, ensayista y escritor uruguayo. Su pluma logró unificar la denuncia sociopolítica de América Latina con una prosa poética y fragmentaria, convirtiéndose en el narrador indispensable de la memoria y la identidad del continente.",
+    "roadmap": [
+      {
+        "step_number": 1,
+        "justification": "La biblia del pensamiento histórico latinoamericano. A través de crónicas punzantes, narra los últimos cinco siglos de explotación económica, demostrando que el subdesarrollo de la región no es una etapa previa al desarrollo, sino la consecuencia directa de enriquecer al primer mundo.",
+        "book": {
+          "title": "Las venas abiertas de América Latina",
+          "publication_year": 1971,
+          "page_count": 379,
+          "connections": [
+            {
+              "target_book_title": "Cien años de soledad",
+              "target_author_name": "Gabriel García Márquez",
+              "reason": "Ambas obras son pilares de la identidad continental. Mientras Galeano documenta el saqueo histórico con datos de la realidad (como la Masacre de las Bananeras), García Márquez toma esos mismos eventos históricos traumáticos y los transforma en realismo mágico en Macondo.",
+              "connection_type": "Historia Latinoamericana Real vs Ficcionalizada",
+              "recommendation_order": 1
+            },
+            {
+              "target_book_title": "La doctrina del shock",
+              "target_author_name": "Naomi Klein",
+              "reason": "Galeano narra la explotación imperialista hasta la década de 1970; Klein toma el relevo exacto en esa misma década, explicando cómo esa explotación evolucionó hacia el capitalismo corporativo moderno usando el terror de Estado en Chile y Argentina.",
+              "connection_type": "Evolución de la Explotación Económica",
+              "recommendation_order": 2
+            }
+          ]
+        }
+      },
+      {
+        "step_number": 2,
+        "justification": "Un homenaje y una disección sociológica de la pasión deportiva. Lejos del análisis táctico o estadístico, Galeano rinde tributo a la poesía del potrero, la tragedia de la derrota, la tiranía del mercado sobre los clubes y el mito del ídolo en el fútbol mundial.",
+        "book": {
+          "title": "El fútbol a sol y sombra",
+          "publication_year": 1995,
+          "page_count": 275,
+          "connections": [
+            {
+              "target_book_title": "Esperándolo a Tito y otros cuentos de fútbol",
+              "target_author_name": "Eduardo Sacheri",
+              "reason": "Los dos autores que lograron elevar el fútbol a literatura mayor en el Río de la Plata. Sacheri lo aborda desde la ficción y la emoción del barrio; Galeano lo hace desde el ensayo histórico, retratando la belleza del deporte y la corrupción de la FIFA.",
+              "connection_type": "Sociología y Literatura del Fútbol",
+              "recommendation_order": 1
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Joseph Campbell",
+    "biography": "Profesor estadounidense especializado en mitología comparada y religión. Su obra es el mapa fundamental de todas las narrativas épicas: descubrió que, sin importar la cultura o la época, todas las historias de aventuras comparten una misma estructura psicológica subyacente.",
+    "roadmap": [
+      {
+        "step_number": 1,
+        "justification": "El libro que definió cómo escribimos historias en la modernidad (inspirando desde Star Wars hasta El Señor de los Anillos). Campbell describe el 'Monomito' o el 'Viaje del Héroe': la estructura de 12 pasos por los que todo protagonista debe pasar para transformarse.",
+        "book": {
+          "title": "El héroe de las mil caras",
+          "publication_year": 1949,
+          "page_count": 416,
+          "connections": [
+            {
+              "target_book_title": "El Hobbit",
+              "target_author_name": "J.R.R. Tolkien",
+              "reason": "La aventura de Bilbo Bolsón encaja milimétricamente en el esquema del Monomito de Campbell: el 'Llamado a la aventura' (la llegada de Gandalf), el 'Rechazo inicial', el cruce del umbral, la cueva oscura y el regreso con el elixir transformador.",
+              "connection_type": "El Monomito Aplicado a la Ficción",
+              "recommendation_order": 1
+            },
+            {
+              "target_book_title": "Los arquetipos y lo inconsciente colectivo",
+              "target_author_name": "Carl Gustav Jung",
+              "reason": "Campbell no inventó el Viaje del Héroe, simplemente tomó los arquetipos psicológicos propuestos por Jung y demostró cómo la mente humana los proyecta obligatoriamente en todas sus narrativas y religiones desde el principio de los tiempos.",
+              "connection_type": "Psicología y Estructura Mítica",
+              "recommendation_order": 2
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Primo Levi",
+    "biography": "Químico y escritor italiano de origen judío. Superviviente del campo de exterminio de Auschwitz. Su literatura carece deliberadamente de dramatismo artificial: relata el horror con la frialdad analítica de un científico, buscando que el lector observe y comprenda la condición humana extrema.",
+    "roadmap": [
+      {
+        "step_number": 1,
+        "justification": "Uno de los testimonios más importantes jamás escritos. En lugar de centrarse solo en la masacre, Levi disecciona cómo el sistema concentracionario estaba diseñado quirúrgicamente para despojar al individuo de su identidad, su nombre, su pudor y su moralidad hasta convertirlo en una cáscara vacía.",
+        "book": {
+          "title": "Si esto es un hombre",
+          "publication_year": 1947,
+          "page_count": 224,
+          "connections": [
+            {
+              "target_book_title": "El hombre en busca de sentido",
+              "target_author_name": "Viktor Frankl",
+              "reason": "Son los dos testimonios supremos del Holocausto. Mientras el psiquiatra Frankl sobrevive buscando un propósito espiritual en medio del infierno, el químico Levi documenta la demolición del espíritu humano con una exactitud escalofriante y agnóstica.",
+              "connection_type": "Testimonios desde el Abismo: Psiquiatría vs Química",
+              "recommendation_order": 1
+            },
+            {
+              "target_book_title": "1984",
+              "target_author_name": "George Orwell",
+              "reason": "Levi muestra en la vida real lo que Orwell advirtió en la ficción. La destrucción de la Habitación 101 en 1984 (quebrar la humanidad del disidente antes de matarlo) fue aplicada metodológicamente por el fascismo para transformar a las personas en piezas intercambiables.",
+              "connection_type": "La Aniquilación Totalitaria de la Identidad",
+              "recommendation_order": 2
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Richard Dawkins",
+    "biography": "Biólogo evolutivo y etólogo británico. Uno de los divulgadores científicos más feroces y brillantes del neodarwinismo y del racionalismo ateo. Su capacidad para explicar la compleja maquinaria genética en términos accesibles cambió la cultura popular.",
+    "roadmap": [
+      {
+        "step_number": 1,
+        "justification": "El libro que introdujo el concepto del 'Meme' (la unidad de información cultural que se replica). Dawkins argumenta que los seres humanos somos simplemente vehículos de supervivencia construidos por nuestros genes, los verdaderos inmortales que dirigen egoístamente nuestra evolución.",
+        "book": {
+          "title": "El gen egoísta",
+          "publication_year": 1976,
+          "page_count": 368,
+          "connections": [
+            {
+              "target_book_title": "El origen de las especies",
+              "target_author_name": "Charles Darwin",
+              "reason": "Dawkins actualiza y perfecciona la teoría de Darwin agregando la genética moderna. Mientras Darwin veía la evolución a nivel de la 'especie' o del 'individuo', Dawkins demuestra matemáticamente que la selección natural opera únicamente a nivel del gen.",
+              "connection_type": "Evolución de la Biología Evolutiva",
+              "recommendation_order": 1
+            },
+            {
+              "target_book_title": "Un mundo feliz",
+              "target_author_name": "Aldous Huxley",
+              "reason": "Dawkins explica cómo la genética diseña a los organismos para maximizar la supervivencia. Huxley imaginó una distopía donde el Estado suplanta el rol de la evolución natural, usando botellas e incubadoras para predeterminar el genoma y el estatus social de cada humano.",
+              "connection_type": "Genética Evolutiva vs Manipulación Genética Estatal",
+              "recommendation_order": 2
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Marshall McLuhan",
+    "biography": "Filósofo y teórico de la comunicación canadiense. Pronosticó la creación de internet ('la aldea global') tres décadas antes de que existiera, revolucionando para siempre nuestra comprensión de cómo la tecnología altera nuestra neurología.",
+    "roadmap": [
+      {
+        "step_number": 1,
+        "justification": "Acuñó la famosa frase 'El medio es el mensaje'. Sostiene que no importa tanto el contenido de lo que vemos en televisión o leemos; lo que verdaderamente reestructura la sociedad y el cerebro humano es el formato tecnológico que transmite esa información.",
+        "book": {
+          "title": "Comprender los medios de comunicación",
+          "publication_year": 1964,
+          "page_count": 384,
+          "connections": [
+            {
+              "target_book_title": "Cultura y simulacro",
+              "target_author_name": "Jean Baudrillard",
+              "reason": "Baudrillard toma las ideas de McLuhan y las lleva al extremo posmoderno. Si para McLuhan el medio tecnológico modifica nuestra realidad, para Baudrillard los medios masivos directamente han devorado y reemplazado a la realidad física, dejando solo simulacros.",
+              "connection_type": "Teoría de Medios y Posmodernidad",
+              "recommendation_order": 1
+            },
+            {
+              "target_book_title": "Fahrenheit 451",
+              "target_author_name": "Ray Bradbury",
+              "reason": "McLuhan analizó sociológicamente cómo la televisión induce un estado de somnolencia pacífica. Bradbury lo ilustró en la ficción: un mundo sin libros donde la gente vive idiotizada frente a paredes-pantalla interactuando con una 'familia' virtual que no exige esfuerzo mental.",
+              "connection_type": "Impacto Neurológico de las Pantallas",
+              "recommendation_order": 2
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://litroadmaps.com/sitemap.xml
