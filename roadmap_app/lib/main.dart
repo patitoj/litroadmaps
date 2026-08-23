@@ -11,7 +11,7 @@ class RoadmapApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Literary Roadmap',
+      title: 'LitRoadmaps | Guías de Lectura Literaria',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

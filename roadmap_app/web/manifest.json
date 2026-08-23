@@ -1,6 +1,6 @@
 {
-    "name": "roadmap_app",
-    "short_name": "roadmap_app",
+    "name": "LitRoadmaps",
+    "short_name": "LitRoadmaps",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

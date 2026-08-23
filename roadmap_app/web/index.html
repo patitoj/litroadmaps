@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-  -->
   <base href="$FLUTTER_BASE_HREF">
-
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   
-  <!-- SEO Básico -->
-  <title>LitRoadmaps - Guías de Lectura y Conexiones Literarias</title>
+  <!-- 1. TÍTULO Y DESCRIPCIÓN (El título debe coincidir con el del main.dart) -->
+  <title>LitRoadmaps | Guías de Lectura Literaria</title>
   <meta name="description" content="Descubre el orden ideal para leer a tus autores favoritos. Explora roadmaps literarios, análisis profundos y conexiones entre los grandes clásicos de la literatura universal.">
   <meta name="keywords" content="LitRoadmaps, orden de lectura, guías literarias, qué leer, conexiones literarias, libros, autores, literatura, filosofía">
   <meta name="author" content="Joaquin Orsini">
 
-  <!-- Open Graph / Redes Sociales (Para que se vea hermoso al compartir el link en WhatsApp, Twitter, etc.) -->
-  <meta property="og:title" content="LitRoadmaps - El mapa de la literatura">
+  <!-- 2. DATOS ESTRUCTURADOS (Esto hace que "LitRoadmaps" aparezca arriba de la URL) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "LitRoadmaps",
+    "url": "https://litroadmaps.com/"
+  }
+  </script>
+
+  <!-- Open Graph / Redes Sociales -->
+  <meta property="og:title" content="LitRoadmaps | Guías de Lectura Literaria">
   <meta property="og:description" content="Encuentra el mapa perfecto para adentrarte en la obra de grandes autores y descubre cómo se conectan sus libros.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://litroadmaps.com">
@@ -29,7 +34,7 @@
   <meta name="apple-mobile-web-app-title" content="LitRoadmaps">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-  <!-- Favicon -->
+  <!-- 3. FAVICON (Asegurate de que tu logo se llame favicon.png y esté en la carpeta web/) -->
   <link rel="icon" type="image/png" href="favicon.png"/>
   <link rel="manifest" href="manifest.json">
 
@@ -39,26 +44,15 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-1KRG9DJM58');
   </script>
 </head>
 <body>
-  <!-- Texto semántico oculto para Googlebot (Mejora el SEO en Flutter Web) -->
-  <div style="display: none;" aria-hidden="true">
-    <h1>LitRoadmaps - Guías y órdenes de lectura literaria</h1>
-    <h2>Descubre en qué orden leer a autores clásicos, filósofos y divulgadores científicos.</h2>
-    <p>Nuestra plataforma te ofrece mapas de lectura detallados paso a paso. Aprende sobre el contexto histórico de las obras, sus justificaciones filosóficas y descubre conexiones ocultas entre diferentes libros de ficción, ensayo, true crime y divulgación científica como George Orwell, Jane Austen, Carl Sagan, Zygmunt Bauman, y Rodolfo Walsh.</p>
+  <!-- 4. TEXTO SEMÁNTICO CORREGIDO (Sin h1/h2 para que Google no ensucie la descripción) -->
+  <div style="position: absolute; left: -9999px; top: -9999px;" aria-hidden="true">
+    <p>LitRoadmaps ofrece guías y órdenes de lectura literaria. Descubre en qué orden leer a autores clásicos, filósofos y divulgadores científicos. Aprende sobre el contexto histórico de las obras y descubre conexiones ocultas entre diferentes libros.</p>
   </div>
 
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
-
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
