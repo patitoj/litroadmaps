@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
                       const Icon(Icons.menu_book_rounded, size: 90, color: Colors.deepPurple),
                       const SizedBox(height: 24),
                       const Text(
-                        'Literary Roadmap',
+                        'LitRoadmaps',
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                       ),
